@@ -1,0 +1,43 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: vehicle-tracker-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        max.poll.records: 100
+        fetch.min.bytes: 100
+        fetch.max.bytes: 1048576
+        connection.max.idle.ms: 540000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all
+        retries: 3
+        compression.type: gzip
+        batch.size: 16384
+        linger.ms: 10
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/vehicle-tracking
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+  web:
+    websocket:
+      enabled: true
+      port: 8080
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.seu.projeto: DEBUG
